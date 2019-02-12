@@ -9,3 +9,10 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT);
+
+
+
+
+
+// Heroku 
+// https://intense-thicket-29425.herokuapp.com/ | https://git.heroku.com/intense-thicket-29425.git
