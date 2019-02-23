@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FETCH_USER } from './types';
+import { FETCH_USER, ADDTODOTYPE, DELETETODOTYPE } from './types';
+
 
 
 export const fetchUser = ()=> {
@@ -11,13 +12,24 @@ export const fetchUser = ()=> {
     }
 }
 
-export const newToDoAction = (newtodo) => {
+export const newToDoAction = (newtodo, history) => {
     return function(dispatch){
         axios.post('/api/addtodo', newtodo)
             .then((res)=>{
-                console.log(res);
-                dispatch({ type: FETCH_USER, payload: res.data });
+                // console.log(res);
+                dispatch({ type: ADDTODOTYPE, payload: res.data });
+                history.push('/todolist');
             }
         )
+    }
+}
+
+export const deleteToDoAction = (newStateAfterdelete) => {
+    return function(dispatch){
+        axios.post('/api/deletetodo', newStateAfterdelete)
+            .then((res)=>{
+                // console.log(res);
+                dispatch({type: DELETETODOTYPE, payload: res.data});
+            })
     }
 }

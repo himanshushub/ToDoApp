@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { withRouter } from 'react-router-dom';
 
 
 
@@ -23,12 +24,20 @@ class InputToDo extends Component{
             ()=> {
                 // console.log(this.state);
                 // console.log(this.state.List);
-                // axios.post('/api/addtodo', this.state)
-                //     .then((res)=>{
-                //         console.log(res);
-                //     }
-                // )
-                this.props.newToDoAction(this.state);
+                var checkPriority = false;
+                for(var i = 0; i<this.props.auth.ToDolist.length; i++){
+                    if(this.state.Priority == this.props.auth.ToDolist[i].priority){
+                        checkPriority = true;
+                        // console.log(i);
+                        break;
+                    }
+                }
+                if(!checkPriority){
+                    this.props.newToDoAction(this.state, this.props.history);
+                }
+                else{
+                    alert("Priority already exist");
+                }
             }
         )
         
@@ -36,20 +45,39 @@ class InputToDo extends Component{
         event.preventDefault();
     }
 
+    renderContent(){
+        switch(this.props.auth){
+            case null:return "still looking"
+
+            case false:return <h2>Please Login To add ToDo</h2>
+
+            default: return(
+                <div>
+                    <form onSubmit={this.handleSubmit}>
+                        Priority:
+                        <input type="number" name="Priority" required/>
+                        New Work:
+                        <input type="text" name="newToDo"  required/>
+                        <input type="submit" value="submit" />
+                    </form>
+                </div>
+            )
+        }
+    }
+
     render(){
 
         return(
             <div>
                 Taking Input
-                <form onSubmit={this.handleSubmit}>
-                    Priority:
-                    <input type="number" name="Priority" />
-                    New Work:
-                    <input type="text" name="newToDo"  />
-                    <input type="submit" value="submit" />
-                </form>
+                {this.renderContent()}
             </div>
         )
     }
 }
-export default connect(null, actions)(InputToDo);
+
+function mapStateToProps(state){
+    return {auth: state.auth}
+    // console.log(state);
+}
+export default connect(mapStateToProps, actions)(withRouter(InputToDo));

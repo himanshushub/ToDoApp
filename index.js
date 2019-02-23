@@ -8,6 +8,7 @@ require('./models/User');
 require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 const addTodo = require('./routes/addToDo');
+const deleteToDo = require('./routes/deleteToDo');
 
 
 mongoose.connect(keys.mongoURI);
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 
 addTodo(app);
 authRoutes(app);
+deleteToDo(app);
 
 
 if(process.env.NODE_ENV === 'production'){

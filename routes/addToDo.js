@@ -1,7 +1,9 @@
+const requireLogin = require('../middlewares/requireLogin');
+
 module.exports = (app)=> {
-    app.post('/api/addtodo', (req,res)=>{
-        // console.log(req.user);
-        console.log(req.body);
+    app.post('/api/addtodo', requireLogin, (req,res)=>{
+        // console.log(req.user.ToDolist);
+        // console.log(req.body);
         let p = { 
                     priority : req.body.Priority,
                     ToDo: req.body.List        

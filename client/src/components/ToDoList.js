@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { Link } from 'react-router-dom';
@@ -14,18 +15,43 @@ class ToDoList extends Component{
         this.columns = [
             {
                 Header: 'Priority',
-                accessor: 'priority'
+                accessor: 'priority',
+                width: 100,
+                maxWidth: 100,
+                minWidth: 100
             },
             {
                 Header: 'ToDo',
                 accessor: 'ToDo'
             },
+            {
+                Header: 'Actions',
+                Cell: props => {
+                    return(
+                        <button onClick={()=>{this.deleteToDo(props.original)}}>Delete</button>
+                    )
+                },
+                filterable: false,
+                width: 100,
+                maxWidth: 100,
+                minWidth: 100
+            }
         ];
 
     }
 
+    deleteToDo(removeToDo){
+        // console.log(removeToDo.priority);
+        const newStateAfterdelete = this.props.auth.ToDolist.filter(eachToDo => {
+            return eachToDo.priority !== removeToDo.priority;
+        })// cant use this because we have to delete the ToDo from backend but you can see that how we have used the filter method
+        // console.log(newStateAfterdelete);
+        this.props.deleteToDoAction(newStateAfterdelete);
+
+    }
+
     renderContent(){
-        console.log(this.props.auth);
+        // console.log(this.props.auth);
         switch(this.props.auth){
             case null:return "still looking"
 
@@ -41,7 +67,8 @@ class ToDoList extends Component{
                     </div>    
                     <ReactTable
                     columns= {this.columns}
-                    data = {this.props.auth.ToDolist} //we need array of objects, here we have(this.props.auth) object only
+                    data = {this.props.auth.ToDolist} //we need array of objects, here we have(this.props.auth.ToDolist)
+                    filterable
                     >
                     </ReactTable>
                 </div>
@@ -74,4 +101,4 @@ function mapStateToProps(state){
     return {auth: state.auth}
 }
 
-export default connect(mapStateToProps)(ToDoList);
+export default connect(mapStateToProps, actions)(ToDoList);
