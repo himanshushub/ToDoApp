@@ -22,7 +22,8 @@ class ToDoList extends Component{
             },
             {
                 Header: 'ToDo',
-                accessor: 'ToDo'
+                accessor: 'ToDo',
+                style:{ 'white-space': 'unset'}
             },
             {
                 Header: 'Actions',
@@ -42,11 +43,13 @@ class ToDoList extends Component{
 
     deleteToDo(removeToDo){
         // console.log(removeToDo.priority);
-        const newStateAfterdelete = this.props.auth.ToDolist.filter(eachToDo => {
-            return eachToDo.priority !== removeToDo.priority;
-        })// cant use this because we have to delete the ToDo from backend but you can see that how we have used the filter method
+        if (window.confirm("Are You sure want to Delete")){
+            const newStateAfterdelete = this.props.auth.ToDolist.filter(eachToDo => {
+                return eachToDo.priority !== removeToDo.priority;
+            })
+            this.props.deleteToDoAction(newStateAfterdelete);
+        }// cant use this because we have to delete the ToDo from backend but you can see that how we have used the filter method
         // console.log(newStateAfterdelete);
-        this.props.deleteToDoAction(newStateAfterdelete);
 
     }
 

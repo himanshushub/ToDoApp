@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
+// import '../css/Sample.less';
+// import DateTimePicker from 'react-datetime-picker';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { withRouter } from 'react-router-dom';
+import * as Datetime from 'react-datetime';
+// import axios from 'axios';
 
 
 
@@ -58,6 +61,11 @@ class InputToDo extends Component{
                         <input type="number" name="Priority" required/>
                         New Work:
                         <input type="text" name="newToDo"  required/>
+                        <div className="Sample__container">
+                            <main className="Sample__container__content">
+                                <Datetime />
+                            </main>
+                        </div>
                         <input type="submit" value="submit" />
                     </form>
                 </div>
